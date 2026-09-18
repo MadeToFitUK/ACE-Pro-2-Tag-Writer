@@ -1,0 +1,11 @@
+# Local Windows build output
+ACE_Pro_2_Tag_Writer.exe
+*.pdb
+*.user
+*.suo
+.vs/
+bin/
+obj/
+
+# Local profile/reel exports
+*.csv

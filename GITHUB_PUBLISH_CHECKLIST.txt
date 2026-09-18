@@ -1,0 +1,25 @@
+ACE Pro 2 RFID Tag Writer - GitHub publish checklist
+=====================================================
+
+BEFORE PUBLISHING
+1. LICENSE copyright identity set to MadeToFitUK.
+2. Read README.md once, especially Acknowledgements, Disclaimer and reel-weight sections.
+3. Keep your real name and email out of the repository if you do not want them public.
+4. GitHub account setting: use GitHub's private/noreply email option for commits if desired.
+
+SUGGESTED REPOSITORY NAME
+ACE-Pro-2-RFID-Tag-Writer
+
+SUGGESTED DESCRIPTION
+Windows NFC tag writer and physical reel-weight helper for Anycubic ACE Pro 2 filament profiles.
+
+SUGGESTED TOPICS
+anycubic, ace-pro-2, nfc, rfid, filament, 3d-printing, acr122u, ntag215, ntag213, windows
+
+SUGGESTED FIRST RELEASE
+Tag: v1.3a
+Title: ACE Pro 2 RFID Tag Writer v1.3a
+Use RELEASE_NOTES_v1.3a.md as the starting release description.
+
+NOTE
+LICENSE identity confirmed as MadeToFitUK.

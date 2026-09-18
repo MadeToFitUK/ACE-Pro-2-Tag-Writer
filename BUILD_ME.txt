@@ -1,0 +1,24 @@
+ACE Pro 2 RFID Tag Writer v1.3a - Windows build
+================================================
+
+NORMAL BUILD (one command)
+--------------------------
+1. Extract this ZIP to a normal folder.
+2. Open Command Prompt in that folder.
+3. Paste this ONE command:
+
+"%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /platform:x64 /win32icon:ACE_Pro_2_Tag_Writer.ico /out:ACE_Pro_2_Tag_Writer.exe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll ACE_Pro_2_Tag_Writer.cs
+
+The finished ACE_Pro_2_Tag_Writer.exe appears in the same folder.
+The filament-reel icon is embedded in the EXE.
+
+IF CSC.EXE IS MISSING
+---------------------
+Do NOT download random DLLs or compiler files from third-party sites.
+Use Microsoft's official .NET Framework page:
+https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481
+
+Microsoft's C# compiler documentation:
+https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/
+
+No Windows security setting needs to be disabled. Leave Smart App Control enabled.
