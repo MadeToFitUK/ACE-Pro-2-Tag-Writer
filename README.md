@@ -4,7 +4,7 @@ A Windows utility for reading, creating, editing and verifying filament NFC tags
 
 The project grew from practical reverse-engineering of genuine Anycubic tags, experiments with third-party NTAG tags, and repeated testing in a real ACE Pro 2. The aim is simple: make useful third-party filament tags without requiring users to type APDU commands by hand.
 
-> **Release candidate:** v1.3a has been physically tested with real tags and an ACE Pro 2. This remains an independent community project, not official Anycubic software.
+> **Current release:** v1.3b has been physically tested with real tags and an ACE Pro 2. This remains an independent community project, not official Anycubic software.
 
 ## Features
 
@@ -19,6 +19,9 @@ The project grew from practical reverse-engineering of genuine Anycubic tags, ex
 - Maintain reel records and export reel data to CSV.
 - Detect existing profiles while entering data and protect against accidental duplicates.
 - Update a loaded profile even when its identifying text or capitalisation is edited.
+- Deleted profiles remain deleted after restart; old development/reference profiles are no longer recreated at startup.
+- Manufacturer and material dropdowns are deduplicated case-insensitively (for example, `SUNLU` and `Sunlu` appear only once).
+- Built-in About box identifies v1.3b, MadeToFitUK, the MIT licence and the project repository.
 
 ## Hardware used during development
 
@@ -122,52 +125,3 @@ Extract/download the files, open Command Prompt in the project folder, and run:
 
 ```bat
 "%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /platform:x64 /win32icon:ACE_Pro_2_Tag_Writer.ico /out:ACE_Pro_2_Tag_Writer.exe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll ACE_Pro_2_Tag_Writer.cs
-```
-
-The resulting `ACE_Pro_2_Tag_Writer.exe` appears in the same folder. See `BUILD_ME.txt` for troubleshooting and official Microsoft references. Do not download random DLL/compiler files from third-party sites and do not disable Windows security features to build the application.
-
-## Project history
-
-Development began in **August 2026** as an experiment to understand what Anycubic stored on its filament NFC tags. Early work involved reading genuine tags with an ACR122U and manually testing individual APDU commands.
-
-That developed into a sequence of physical experiments: mapping useful tag pages, successfully programming third-party tags, comparing genuine PLA/PETG data, testing third-party ASA/PETG, and investigating how the ACE behaved when tags, slots, spool movement and identifiers were changed.
-
-A particularly important breakthrough was confirming the ACE colour field's **ABGR byte order**. Once the application converted ordinary RGB HEX values internally, manufacturer HEX colours could be entered normally and reproduced correctly on the ACE.
-
-The project then expanded beyond tag writing. Experiments showed that the decreasing reel graphic should not be treated as a scale, leading to the physical **reel-weight calculator**. Profiles, duplicate protection, reel records, verification, safety warnings and workflow improvements were added through repeated real-world use.
-
-By September 2026 the utility had become a practical Windows application rather than the original collection of manual NFC experiments. Development involved many test builds and, more importantly, repeated physical testing with the actual ACE Pro 2 rather than relying only on assumptions about the tag format.
-
-## Acknowledgements and prior research
-
-This project was independently implemented and physically tested, but it benefited from public research by other members of the 3D-printing community.
-
-### DnG-Crafts - ACE-RFID
-
-https://github.com/DnG-Crafts/ACE-RFID
-
-Thanks to **DnG-Crafts** for documenting the Anycubic ACE RFID tag format and publishing reference information about the tag structure, including SKU, brand, material, colour, temperatures and filament parameters. At the time this README was prepared, the repository did not display a LICENSE file, so no licence is attributed to that project here.
-
-### OrochW - Anycubic-ACE-RFID-Tool
-
-https://github.com/OrochW/Anycubic-ACE-RFID-Tool
-
-Thanks to **OrochW** for additional ACE RFID research, particularly the documented ABGR colour representation and colour examples that helped confirm the colour-byte-order breakthrough during our own physical tests. At the time this README was prepared, the repository did not display a LICENSE file, so no licence is attributed to that project here.
-
-### mrRobot62 - Anycubic-NFC-Tagger-QT5 and SKU research
-
-https://github.com/mrRobot62/Anycubic-NFC-Tagger-QT5
-
-https://github.com/mrRobot62/anycubic_filament_sku_sniffer
-
-Thanks to **mrRobot62** for independent Anycubic NFC/SKU research and tools. `Anycubic-NFC-Tagger-QT5` is published under the **GNU GPL v3.0**. This project acknowledges that research; it does not incorporate that application's source code.
-
-## Independence and disclaimer
-
-This is an independent community project. It is **not affiliated with, authorised by, sponsored by or endorsed by Anycubic**. Anycubic, ACE and related product names remain the property of their respective owners.
-
-Writing NFC tags is performed at the user's own risk. Keep backups of useful profile information and verify values before writing. Do not write the factory UID/manufacturer pages of NFC tags.
-
-## Licence
-
-This project is intended to be released under the **MIT License**. The copyright holder is listed as **MadeToFitUK**; no real name or email address is required.
