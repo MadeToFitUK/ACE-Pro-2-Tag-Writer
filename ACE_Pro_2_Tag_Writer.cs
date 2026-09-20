@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -65,27 +65,12 @@ namespace ACEPro2TagWriter
 
         public MainForm()
         {
-            Text = "ACE Pro 2 RFID Tag Writer v1.3a";
+            Text = "ACE Pro 2 RFID Tag Writer v1.3b";
             try { Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { }
             Width = 1020; Height = 1130;
             StartPosition = FormStartPosition.CenterScreen;
             Font = new Font("Segoe UI", 9F);
 
-            profiles["TESTED - eSUN ASA+ Black"] = new Profile {
-                Manufacturer="eSUN", Code="ESUN", Material="ASA", Sku="ESASBK-001",
-                Color="#000000", NozzleMin=250, NozzleMax=280, BedMin=90, BedMax=110,
-                Weight=1000, Length=416
-            };
-            profiles["TESTED - Anycubic PETG Black"] = new Profile {
-                Manufacturer="Anycubic", Code="AC", Material="PETG", Sku="AHPEBK-102",
-                Color="#212721", NozzleMin=230, NozzleMax=250, BedMin=60, BedMax=70,
-                Weight=1000, Length=320
-            };
-            profiles["REFERENCE - Anycubic PLA Grey"] = new Profile {
-                Manufacturer="Anycubic", Code="AC", Material="PLA", Sku="AHPLGY-107",
-                Color="#75787B", NozzleMin=190, NozzleMax=230, BedMin=55, BedMax=65,
-                Weight=1000, Length=330
-            };
 
             int y=18;
             AddLabel("Reader", 20,y); cbReader.SetBounds(160,y,420,25); Controls.Add(cbReader);
@@ -169,6 +154,7 @@ namespace ACEPro2TagWriter
             btnExportGitHub.Text="Export for GitHub"; btnExportGitHub.SetBounds(20,y,140,36); btnExportGitHub.Click += ExportForGitHub; Controls.Add(btnExportGitHub);
             btnShowReels.Text="Reel Records"; btnShowReels.SetBounds(170,y,140,36); btnShowReels.Click += ShowReelRecords; Controls.Add(btnShowReels);
             btnExportReels.Text="Export Reels CSV"; btnExportReels.SetBounds(320,y,140,36); btnExportReels.Click += ExportReelsCsv; Controls.Add(btnExportReels);
+            var btnAbout = new Button(){Text="About"}; btnAbout.SetBounds(470,y,140,36); btnAbout.Click += ShowAbout; Controls.Add(btnAbout);
             y+=48;
 
             var wTitle=new Label(){Text="Reel weight check (calculator only — does not alter the NFC tag)",Font=new Font(Font,FontStyle.Bold)};
@@ -203,6 +189,19 @@ namespace ACEPro2TagWriter
 
             WireDirtyTracking();
             FormClosing += MainForm_FormClosing;
+        }
+
+        void ShowAbout(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "ACE Pro 2 Tag Writer v1.3b\r\n\r\n" +
+                "Copyright © 2026 MadeToFitUK\r\n" +
+                "Licensed under the MIT License\r\n\r\n" +
+                "Independent community project — not affiliated with or endorsed by Anycubic.\r\n\r\n" +
+                "GitHub: https://github.com/MadeToFitUK/ACE-Pro-2-Tag-Writer",
+                "About ACE Pro 2 Tag Writer",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
 
         void AddLabel(string t,int x,int y){ var l=new Label(){Text=t}; l.SetBounds(x,y+4,135,22); Controls.Add(l); }
@@ -316,21 +315,30 @@ namespace ACEPro2TagWriter
             txtProfileName.Text=GeneratedProfileName();
         }
 
+        static bool ComboContainsIgnoreCase(ComboBox box, string value)
+        {
+            foreach(object item in box.Items)
+                if(string.Equals(Convert.ToString(item), value, StringComparison.OrdinalIgnoreCase)) return true;
+            return false;
+        }
+
         void SeedChoiceLists()
         {
-            foreach(string s in new string[]{"Anycubic","eSUN","SUNLU"})
-                if(!txtManufacturer.Items.Contains(s)) txtManufacturer.Items.Add(s);
+            // Keep only universal starter choices here. Manufacturer names from saved
+            // profiles are added below, preserving the user's chosen capitalisation.
+            foreach(string s in new string[]{"Anycubic","eSUN"})
+                if(!ComboContainsIgnoreCase(txtManufacturer,s)) txtManufacturer.Items.Add(s);
 
             foreach(string s in new string[]{"PLA","PLA+","PETG","ASA","ABS","TPU","PA","Nylon","PC"})
-                if(!txtMaterial.Items.Contains(s)) txtMaterial.Items.Add(s);
+                if(!ComboContainsIgnoreCase(txtMaterial,s)) txtMaterial.Items.Add(s);
         }
 
         void RefreshChoiceListsFromProfiles()
         {
             foreach(Profile p in profiles.Values) {
-                if(!string.IsNullOrWhiteSpace(p.Manufacturer) && !txtManufacturer.Items.Contains(p.Manufacturer))
+                if(!string.IsNullOrWhiteSpace(p.Manufacturer) && !ComboContainsIgnoreCase(txtManufacturer,p.Manufacturer))
                     txtManufacturer.Items.Add(p.Manufacturer);
-                if(!string.IsNullOrWhiteSpace(p.Material) && !txtMaterial.Items.Contains(p.Material))
+                if(!string.IsNullOrWhiteSpace(p.Material) && !ComboContainsIgnoreCase(txtMaterial,p.Material))
                     txtMaterial.Items.Add(p.Material);
             }
         }
